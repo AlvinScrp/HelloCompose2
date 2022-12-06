@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 rootProject.name = "HelloCompose2"
 include ':app'
 include ':todolist'
+include ':testflow'
+include ':wanandroid'

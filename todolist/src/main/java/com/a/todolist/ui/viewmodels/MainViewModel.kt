@@ -1,13 +1,16 @@
 package com.a.todolist.ui.viewmodels
 
-import androidx.compose.runtime.MutableState
+import android.util.Log
+import androidx.compose.runtime.SnapshotMutationPolicy
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.a.todolist.consts.RequestState
 import com.boycoder.todo.app.data.entity.Task
+import com.boycoder.todo.app.data.entity.newTask
 import com.boycoder.todo.app.data.repo.ToDoRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -19,17 +22,9 @@ class MainViewModel(
     private val repository: ToDoRepository = ToDoRepository()
 ) : ViewModel() {
 
-    private val currentTaskId: MutableState<Int> = mutableStateOf(0)
-    val currentTaskTitle: MutableState<String> = mutableStateOf("")
-    val currentTaskDesc: MutableState<String> = mutableStateOf("")
-    val isCurrentTaskDone: MutableState<Boolean> = mutableStateOf(false)
 
-    private val _allTasks =
-        MutableStateFlow<RequestState<List<Task>>>(RequestState.Idle)
+    private val _allTasks = MutableStateFlow<RequestState<List<Task>>>(RequestState.Idle)
     val allTasks: StateFlow<RequestState<List<Task>>> = _allTasks
-
-    private val _currentTask: MutableStateFlow<Task?> = MutableStateFlow(null)
-    val currentTask: StateFlow<Task?> = _currentTask
 
     init {
         loadAllTasks()
@@ -41,53 +36,49 @@ class MainViewModel(
                 .onStart { _allTasks.value = RequestState.Loading }
                 .catch { _allTasks.value = RequestState.Error(it) }
                 .collect {
+                    Log.d("alvin","XX --- ")
                     _allTasks.value = RequestState.Success(it)
                 }
         }
     }
 
+    var detailState =
+        mutableStateOf<Task>(newTask(), policy = object : SnapshotMutationPolicy<Task> {
+            override fun equivalent(a: Task, b: Task): Boolean {
+                return false
+            }
+        })
+
     fun searchTask(taskId: Int) {
+        Log.d("alvin", "searchTask")
+        var newTask = Task(title = "", desc = "", isDone = false)
         viewModelScope.launch {
             repository.searchTask(taskId = taskId)
-                .catch { _currentTask.value = null }
-                .collect { task ->
-                _currentTask.value = task
-            }
+                .collect {
+                    Log.d("alvin", "searchTask collect:${it}")
+                    detailState.value = it ?: newTask
+                }
         }
     }
 
-    fun createTask() {
+    fun createTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
-            val task = Task(
-                title = currentTaskTitle.value,
-                desc = currentTaskDesc.value,
-                isDone = false
-            )
             repository.insertTask(task = task)
         }
     }
 
-    fun updateTask() {
+    fun updateTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
-            val task = Task(
-                id = currentTaskId.value,
-                title = currentTaskTitle.value,
-                desc = currentTaskDesc.value,
-                isDone = isCurrentTaskDone.value
-            )
             repository.updateTask(task = task)
         }
     }
 
-    fun deleteTask() {
+    fun deleteTaskById(taskId: Int?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val task = Task(
-                id = currentTaskId.value,
-                title = currentTaskTitle.value,
-                desc = currentTaskDesc.value,
-                isDone = isCurrentTaskDone.value
-            )
-            repository.deleteTask(task = task)
+            taskId?.let {
+                repository.deleteTaskById(it)
+            }
+
         }
     }
 
@@ -97,25 +88,18 @@ class MainViewModel(
         }
     }
 
-    fun updateCurrentTaskFields(currentTask: Task?) {
-        if (currentTask != null) {
-            currentTaskId.value = currentTask.id
-            currentTaskTitle.value = currentTask.title
-            currentTaskDesc.value = currentTask.desc
-            isCurrentTaskDone.value = currentTask.isDone
-        } else {
-            currentTaskId.value = 0
-            currentTaskTitle.value = ""
-            currentTaskDesc.value = ""
-            isCurrentTaskDone.value = false
+    fun updateDraft(task: Task) {
+        viewModelScope.launch {
+            detailState.value = task
         }
+
     }
 
-    fun updateTitle(newTitle: String) {
-        currentTaskTitle.value = newTitle
+    fun clearTask() {
+        detailState.value = newTask()
     }
 
-    fun isCurrentTaskValid(): Boolean {
-        return currentTaskTitle.value.isNotEmpty() && currentTaskDesc.value.isNotEmpty()
+    fun newDraftTask() {
+        detailState.value = newTask()
     }
 }

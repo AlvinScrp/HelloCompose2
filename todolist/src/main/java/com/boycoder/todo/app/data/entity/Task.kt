@@ -12,7 +12,9 @@ import androidx.room.PrimaryKey
 data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val title: String,
-    val desc: String,
-    val isDone: Boolean
+    var title: String,
+    var desc: String,
+    var isDone: Boolean
 )
+
+fun newTask() = Task(0, "", "", false)

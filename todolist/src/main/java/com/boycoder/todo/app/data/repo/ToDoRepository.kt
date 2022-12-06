@@ -15,7 +15,7 @@ class ToDoRepository(private val toDoDao: ToDoDao = DBHelper.provideDao()) {
 
     val getAllTasks: Flow<List<Task>> = toDoDao.loadAllTasks()
 
-    fun searchTask(taskId: Int): Flow<Task> {
+      fun searchTask(taskId: Int):Flow<Task?>  {
         return toDoDao.searchTask(taskId = taskId)
     }
 
@@ -25,6 +25,10 @@ class ToDoRepository(private val toDoDao: ToDoDao = DBHelper.provideDao()) {
 
     suspend fun updateTask(task: Task) {
         toDoDao.updateTask(task = task)
+    }
+
+    suspend fun deleteTaskById(taskId: Int) {
+        toDoDao.deleteTaskById(taskId = taskId)
     }
 
     suspend fun deleteTask(task: Task) {
