@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.a.wanandroid.nav.BottomItem
 import com.a.wanandroid.nav.RouteData
 import com.a.wanandroid.screen.main.MainIndexScreen
+import com.a.wanandroid.screen.main.MainIndexViewModel
 import com.a.wanandroid.screen.main.MainProjectScreen
 import com.a.wanandroid.screen.main.MainWxArticleScreen
 import com.a.wanandroid.ui.theme.setStatusBarColor

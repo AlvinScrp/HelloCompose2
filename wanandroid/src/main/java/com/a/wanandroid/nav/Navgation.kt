@@ -30,7 +30,7 @@ fun NavigationApp() {
         navCtrl.navigate(RouteData.main) {
             popUpTo(RouteData.splash) { inclusive = true }
         }
-    }, 1000)
+    }, 500)
 }
 
 

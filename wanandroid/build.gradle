@@ -63,8 +63,14 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+//    implementation 'com.squareup.okhttp3:logging-interceptor::3.10.0'
+//    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    def accompanist_version = '0.28.0'
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation 'io.github.shenzhen2017:compose-refreshlayout:1.0.0'
 //    implementation 'com.github.bumptech.glide:glide:4.12.0'
 
 }
