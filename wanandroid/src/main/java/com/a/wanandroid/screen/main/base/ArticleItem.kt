@@ -1,5 +1,6 @@
 package com.a.wanandroid.screen.main.base
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -17,13 +18,15 @@ import com.a.wanandroid.net.bean.Article
 fun ArticleItem(
     article: Article,
     isTop: Boolean = false,
-    showChapter: Boolean = true
+    showChapter: Boolean = true,
+    onClick: ((Article) -> Unit)? = null
 ) {
 
     Column {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onClick?.invoke(article) }
                 .padding(12.dp)
         ) {
             Row() {
@@ -37,7 +40,7 @@ fun ArticleItem(
                 Text(text = article.niceDate.orEmpty(), color = Color(0xFF81848A), fontSize = 12.sp)
             }
 
-            Box(modifier = Modifier.padding(vertical = 11.dp)) {
+            Box(modifier = Modifier.padding(top = 11.dp)) {
                 Text(
                     text = article.title.orEmpty(),
                     color = Color(0xFF000000),
@@ -46,8 +49,12 @@ fun ArticleItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
-            if(showChapter) {
-                Row(modifier = Modifier.fillMaxWidth()) {
+            if (showChapter) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 11.dp)
+                ) {
                     Text(
                         text = article.chapterLabel(),
                         color = Color(0xFF81848A),

@@ -1,5 +1,6 @@
 package com.a.wanandroid.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -18,15 +19,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.a.wanandroid.nav.BottomItem
+import com.a.wanandroid.nav.Navigation
 import com.a.wanandroid.nav.RouteData
-import com.a.wanandroid.screen.main.MainIndexScreen
-import com.a.wanandroid.screen.main.MainIndexViewModel
-import com.a.wanandroid.screen.main.MainProjectScreen
-import com.a.wanandroid.screen.main.MainWxArticleScreen
+import com.a.wanandroid.net.bean.Article
+import com.a.wanandroid.screen.main.*
 import com.a.wanandroid.ui.theme.setStatusBarColor
+import com.a.wanandroid.ui.theme.themeTextColor
 
 @Composable
-fun MainScreen() {
+fun MainScreen(goDetail: ((Article) -> Unit)? = null) {
     setStatusBarColor()
     val navCtrl = rememberNavController()
     val navEntry = navCtrl.currentBackStackEntryAsState()
@@ -41,11 +42,14 @@ fun MainScreen() {
     ) {
         NavHost(
             navController = navCtrl,
-            startDestination = RouteData.main_index,
+            startDestination = RouteData.main_website,
             Modifier.padding(it)
         ) {
+            composable(RouteData.main_website) {
+                WebSiteScreen()
+            }
             composable(RouteData.main_index) {
-                MainIndexScreen()
+                MainIndexScreen(goDetail = goDetail)
             }
             composable(RouteData.main_wxarticle) {
                 MainWxArticleScreen()
@@ -80,7 +84,7 @@ fun MainBottom(curRoute: String?, onItemClick: (BottomItem) -> Unit) {
         RouteData.mainBottomItems.forEach { item ->
             BottomNavigationItem(
                 selected = curRoute == item.route,
-                selectedContentColor = Color(0xFF1e80ff),
+                selectedContentColor = themeTextColor,
                 unselectedContentColor = Color(0xFF616161),
                 onClick = { onItemClick.invoke(item) },
                 icon = {

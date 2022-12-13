@@ -79,5 +79,7 @@ data class WxChapterBean(
     val visible: Int
 )
 
+data class NavBean(val cid: Int?, val name: String?, val articles: List<Article>?)
+
 
 
