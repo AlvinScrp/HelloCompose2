@@ -28,8 +28,6 @@ fun WrapLayout(
         var x = 0;
         var y = 0;
 
-        Log.d("alvin", "maxWidth:${constraints.maxWidth}")
-
         var maxWidth = constraints.maxWidth
 
         val positionMap = mutableMapOf<Placeable, Position>()

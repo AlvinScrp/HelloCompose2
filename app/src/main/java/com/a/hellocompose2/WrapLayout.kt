@@ -29,8 +29,6 @@ fun WrapLayout(
         var x = 0;
         var y = 0;
 
-        Log.d("alvin", "maxWidth:${constraints.maxWidth}")
-
         layout(constraints.maxWidth, constraints.maxHeight) {
             var maxWidth = constraints.maxWidth
 

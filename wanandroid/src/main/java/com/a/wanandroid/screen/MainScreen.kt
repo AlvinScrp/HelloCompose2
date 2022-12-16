@@ -45,15 +45,9 @@ fun MainScreen(goDetail: ((Article) -> Unit)? = null) {
             startDestination = RouteData.main_website,
             Modifier.padding(it)
         ) {
-            composable(RouteData.main_website) {
-                WebSiteScreen()
-            }
-            composable(RouteData.main_index) {
-                MainIndexScreen(goDetail = goDetail)
-            }
-            composable(RouteData.main_wxarticle) {
-                MainWxArticleScreen()
-            }
+            composable(RouteData.main_website) { WebSiteScreen() }
+            composable(RouteData.main_index) { MainIndexScreen(goDetail = goDetail) }
+            composable(RouteData.main_wxarticle) { MainWxArticleScreen() }
             composable(RouteData.main_project) { MainProjectScreen() }
         }
     }

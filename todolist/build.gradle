@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'com.a.todolist'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.a.todolist"
@@ -38,7 +38,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.3.2'
     }
     packagingOptions {
         resources {
