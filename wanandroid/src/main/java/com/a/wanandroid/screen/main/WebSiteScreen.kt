@@ -23,8 +23,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.a.wanandroid.net.bean.NavBean
 import com.a.wanandroid.screen.main.base.ScreenLoading
 import com.a.wanandroid.ui.theme.themeTextColor
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
-object S{
+object S {
     var count = 0
 }
 
@@ -41,34 +44,31 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
     var indicatorPosition by remember { mutableStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
     var clickFrag by remember { mutableStateOf(false) }
-    Log.d("alvin","WebSiteScreen ${S.count++}")
+    Log.d("alvin", "WebSiteScreen ")
 
-    LaunchedEffect(
-        key1 = rightState.firstVisibleItemIndex,
-        key2 = rightState.isScrollInProgress
-    ) {
-        Log.d("alvin", "LaunchedEffect rightState scrolling:${rightState.isScrollInProgress} clickFlag:${clickFrag}")
-        if (rightState.isScrollInProgress) {
-            return@LaunchedEffect
-        }
-        if (clickFrag) {
-            clickFrag = false
-            return@LaunchedEffect
-        }
-        val bodyPosition = rightState.firstVisibleItemIndex
-        if (indicatorPosition != bodyPosition) {
-            indicatorPosition = bodyPosition
-            val visibleItemInfo =
-                leftState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == indicatorPosition }
-            val visible = visibleItemInfo != null
-            if (!visible) {
-                coroutineScope.launch {
-                    leftState.animateScrollToItem(indicatorPosition)
+
+    LaunchedEffect(key1 = rightState) {
+        snapshotFlow { rightState.isScrollInProgress }
+            .distinctUntilChanged()
+            .filter { !it }
+            .collect {
+                if (clickFrag) {
+                    clickFrag = false
+                    return@collect
+                }
+                val bodyPosition = rightState.firstVisibleItemIndex
+                if (indicatorPosition != bodyPosition) {
+                    indicatorPosition = bodyPosition
+                    val visibleItemInfo =
+                        leftState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == indicatorPosition }
+                    val visible = visibleItemInfo != null
+                    if (!visible) {
+                        coroutineScope.launch {
+                            leftState.animateScrollToItem(indicatorPosition)
+                        }
+                    }
                 }
             }
-//
-        }
-
     }
 
     val indicatorClick: ((Int) -> Unit) = { index ->
@@ -96,7 +96,12 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
                 for (i in 0 until size) {
                     item {
                         val navi = navies[i]
-                        IndicatorItemContent(navi, i, indicatorPosition, indicatorClick)
+                        IndicatorItemContent(
+                            navi,
+                            i,
+                            indicatorPosition,
+                            indicatorClick
+                        )
                     }
                 }
             }
@@ -128,11 +133,11 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
 fun IndicatorItemContent(
     navi: NavBean,
     index: Int,
-    selectPosition: Int,
+    indicatorPosition: Int,
     onclick: ((Int) -> Unit)? = null
 ) {
 
-    val selected = index == selectPosition
+    val selected = indicatorPosition == index
     val bgColor = if (selected) Color.White else Color(0xFFF7F7F9)
     val textColor = if (selected) Color.Black else Color(0xFF808394)
     Box(
