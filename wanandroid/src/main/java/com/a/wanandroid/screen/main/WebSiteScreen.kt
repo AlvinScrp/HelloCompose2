@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.a.wanandroid.component.WrapLayout
 import kotlinx.coroutines.launch
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.a.wanandroid.net.bean.Article
 import com.a.wanandroid.net.bean.NavBean
 import com.a.wanandroid.screen.main.base.ScreenLoading
 import com.a.wanandroid.ui.theme.themeTextColor
@@ -45,6 +47,8 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
     val coroutineScope = rememberCoroutineScope()
     var clickFrag by remember { mutableStateOf(false) }
     Log.d("alvin", "WebSiteScreen ")
+
+//    val cliclLodding
 
 
     LaunchedEffect(key1 = rightState) {
@@ -78,7 +82,6 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
             rightState.animateScrollToItem(index = index, scrollOffset = 0)
         }
     }
-
     if (uiState.loading) {
         Box(modifier = Modifier.fillMaxSize()) {
             ScreenLoading()
@@ -116,7 +119,7 @@ fun WebSiteScreen(viewModel: WebSiteViewModel = viewModel()) {
                 for (i in 0 until size) {
                     item {
                         val navi = navies[i]
-                        BodyItemContent(navi = navi)
+                        BodyItemContent(navi = navi, onWebSiteClick = {article ->  })
 
                     }
                 }
@@ -169,7 +172,8 @@ fun IndicatorItemContent(
 
 @Composable
 fun BodyItemContent(
-    navi: NavBean
+    navi: NavBean,
+    onWebSiteClick:((Article)->Unit)?=null
 ) {
     Column {
         Text(
@@ -185,6 +189,7 @@ fun BodyItemContent(
             navi.articles?.forEach { article ->
                 Box(
                     modifier = Modifier
+                        .clickable { onWebSiteClick?.invoke(article) }
                         .padding(5.dp)
 
                         .clip(RoundedCornerShape(4.dp))
