@@ -9,11 +9,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -83,7 +82,7 @@ fun HomeAppBar(onMoreClick: (() -> Unit)?) {
     ) {
         Text(
             text = "任务标题",
-            color = MaterialTheme.colors.topAppBarContent,
+            color = MaterialTheme.colorScheme.topAppBarContent,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -92,7 +91,7 @@ fun HomeAppBar(onMoreClick: (() -> Unit)?) {
             modifier = Modifier.clickable { onMoreClick?.invoke() },
             imageVector = Icons.Filled.Menu,
             contentDescription = stringResource(id = R.string.list_screen_title),
-            tint = MaterialTheme.colors.topAppBarContent
+            tint = MaterialTheme.colorScheme.topAppBarContent
         )
     }
 }
@@ -113,8 +112,8 @@ fun TaskItem(task: Task) {
         ) {
             Text(
                 text = task.title,
-                color = MaterialTheme.colors.taskItemText,
-                style = MaterialTheme.typography.h5,
+                color = MaterialTheme.colorScheme.taskItemText,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1
             )
@@ -158,7 +157,7 @@ fun FloatAdd(modifier: Modifier = Modifier, onClick: (() -> Unit)?) {
     ) {
         FloatingActionButton(
             onClick = { onClick?.invoke() },
-            backgroundColor = Teal200
+            containerColor = Teal200
         ) {
             Icon(
                 imageVector = Icons.Filled.Add,

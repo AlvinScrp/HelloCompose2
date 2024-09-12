@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -119,9 +119,7 @@ fun DetailContent(
             Log.d("alvin", "标题栏 111 ")
             TextField(
                 modifier = Modifier.weight(1.0f),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent
-                ),
+                colors = TextFieldDefaults.colors(),
                 value = task.title,
                 onValueChange = {
                     Log.d("alvin", "onValueChange title:${it}")

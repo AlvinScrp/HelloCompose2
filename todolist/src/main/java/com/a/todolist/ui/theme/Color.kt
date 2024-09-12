@@ -1,6 +1,7 @@
 package com.a.todolist.ui.theme
 
-import androidx.compose.material.Colors
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -73,30 +74,13 @@ val Neutral0 = Color(0xffffffff)
 
 val Transparent = Color.Transparent
 
-val Colors.splashBackground: Color
-    @Composable
-    get() = if (isLight) Lavender5 else Color.Black
 
-val Colors.splashText: Color
+val ColorScheme.taskItemText: Color
     @Composable
-    get() = if (isLight) Color.White else Neutral8
+    get() = if (!isSystemInDarkTheme()) Neutral8 else Neutral0
 
-val Colors.taskItemText: Color
-    @Composable
-    get() = if (isLight) Neutral8 else Neutral0
 
-val Colors.taskItemBackground: Color
+val ColorScheme.topAppBarContent: Color
     @Composable
-    get() = if (isLight) Color.White else Neutral8
+    get() = if (!isSystemInDarkTheme()) Color.White else Neutral0
 
-val Colors.fabBackground: Color
-    @Composable
-    get() = if (isLight) Ocean6 else Lavender5
-
-val Colors.topAppBarContent: Color
-    @Composable
-    get() = if (isLight) Color.White else Neutral0
-
-val Colors.topAppBarBackground: Color
-    @Composable
-    get() = if (isLight) Lavender5 else Color.Black

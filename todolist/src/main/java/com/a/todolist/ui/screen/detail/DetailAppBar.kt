@@ -3,9 +3,15 @@ package com.a.todolist.ui.screen.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +49,7 @@ fun TaskCreateAppBar(onBackClick: (() -> Unit)?, onCheckClick: (() -> Unit)?) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = stringResource(id = R.string.back_arrow),
-                tint = MaterialTheme.colors.topAppBarContent
+                tint = MaterialTheme.colorScheme.topAppBarContent
             )
         }
 
@@ -52,7 +58,7 @@ fun TaskCreateAppBar(onBackClick: (() -> Unit)?, onCheckClick: (() -> Unit)?) {
                 .fillMaxWidth()
                 .weight(1f),
             text = "创建任务",
-            color = MaterialTheme.colors.topAppBarContent,
+            color = MaterialTheme.colorScheme.topAppBarContent,
         )
 
         IconButton(
@@ -60,7 +66,7 @@ fun TaskCreateAppBar(onBackClick: (() -> Unit)?, onCheckClick: (() -> Unit)?) {
             Icon(
                 imageVector = Icons.Filled.Check,
                 contentDescription = stringResource(id = R.string.back_arrow),
-                tint = MaterialTheme.colors.topAppBarContent
+                tint = MaterialTheme.colorScheme.topAppBarContent
             )
         }
     }
@@ -91,7 +97,7 @@ fun TaskEditAppBar(
                 },
             imageVector = Icons.Filled.Close,
             contentDescription = stringResource(id = R.string.back_arrow),
-            tint = MaterialTheme.colors.topAppBarContent
+            tint = MaterialTheme.colorScheme.topAppBarContent
         )
         Text(
             modifier = Modifier
@@ -103,7 +109,7 @@ fun TaskEditAppBar(
                     width = Dimension.fillToConstraints
                 },
             text = titleString,
-            color = MaterialTheme.colors.topAppBarContent,
+            color = MaterialTheme.colorScheme.topAppBarContent,
         )
 
         Icon(
@@ -117,7 +123,7 @@ fun TaskEditAppBar(
                 },
             imageVector = Icons.Filled.Delete,
             contentDescription = stringResource(id = R.string.delete_icon),
-            tint = MaterialTheme.colors.topAppBarContent
+            tint = MaterialTheme.colorScheme.topAppBarContent
         )
 
         Icon(
@@ -130,7 +136,7 @@ fun TaskEditAppBar(
                 },
             imageVector = Icons.Filled.Check,
             contentDescription = stringResource(id = R.string.update_icon),
-            tint = MaterialTheme.colors.topAppBarContent
+            tint = MaterialTheme.colorScheme.topAppBarContent
         )
     }
 
